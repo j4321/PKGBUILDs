@@ -1,0 +1,39 @@
+# Maintainer: ValHue <vhuelamo at gmail dot com>
+# https://github.com/ValHue/AUR-PKGBUILDs
+#
+# Contributor: Juliette Monsel <j_4321 at protonmail dot com>
+# Contributor: György Balló <ballogy at freestart dot hu>
+
+_pkgname="lazr.restfulclient"
+pkgname=("python-lazr-restfulclient" "python2-lazr-restfulclient")
+pkgver="0.14.2"
+pkgrel="1"
+pkgdesc="A programmable client library that takes advantage of the commonalities among lazr.restful web services to provide added functionality on top of wadllib"
+arch=('any')
+url="https://launchpad.net/$_pkgname"
+license=('LGPL3')
+makedepends=('python-setuptools' 'python2-setuptools')
+source=("${pkgname}-${pkgver}.tar.gz::https://launchpad.net/$_pkgname/trunk/$pkgver/+download/$_pkgname-$pkgver.tar.gz"
+        "${pkgname}-${pkgver}.tar.gz.asc::https://launchpad.net/$_pkgname/trunk/$pkgver/+download/$_pkgname-$pkgver.tar.gz.asc")
+sha256sums=('1ee3acf3bb38861546251f2f158a5e5df403d93b4b040b08c3f297e24b3a035a'
+            'SKIP')
+validpgpkeys=('AC0A4FF12611B6FCCF01C111393587D97D86500B') 
+
+build() {
+    cd "${srcdir}/${_pkgname}-${pkgver}"
+    python setup.py build
+}
+
+package_python2-lazr-restfulclient() {
+    depends=('python2-lazr-uri' 'python2-zope-interface' 'python2-setuptools'
+             'python2-httplib2' 'python2-simplejson' 'python2-wadllib' 'python2-oauth')
+    cd "${srcdir}/${_pkgname}-${pkgver}"
+    python2 setup.py install --root="${pkgdir}" --optimize=1 --skip-build
+}
+
+package_python-lazr-restfulclient() {
+    depends=('python-lazr-uri' 'python-zope-interface' 'python-setuptools'
+             'python-httplib2' 'python-simplejson' 'python-wadllib' 'python-oauth')
+    cd "${srcdir}/${_pkgname}-${pkgver}"
+    python setup.py install --root="${pkgdir}" --optimize=1 --skip-build
+}

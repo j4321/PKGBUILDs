@@ -1,0 +1,32 @@
+# Maintainer: ValHue <vhuelamo at gmail dot com>
+# Contributor: Juliette Monsel <j_4321 at protonmail dot com>
+# Contributor: György Balló <ballogy at freestart dot hu>
+
+_pkgname="lazr.uri"
+pkgname=("python-lazr-uri" "python2-lazr-uri")
+pkgver="1.0.3"
+pkgrel="3"
+pkgdesc="A self-contained, easily reusable library for parsing, manipulating, and generating URIs"
+arch=('any')
+url="https://launchpad.net/$_pkgname"
+license=('LGPL3')
+makedepends=('python-setuptools' 'python2-setuptools')
+source=("${pkgname}-${pkgver}.tar.gz::https://launchpad.net/$_pkgname/trunk/$pkgver/+download/$_pkgname-$pkgver.tar.gz")
+sha256sums=('5c620b5993c8c6a73084176bfc51de64972b8373620476ed841931a49752dc8b')
+
+build() {
+    cd "${srcdir}/${_pkgname}-${pkgver}"
+    python setup.py build
+}
+
+package_python2-lazr-uri() {
+    depends=('python2-setuptools')
+    cd "${srcdir}/${_pkgname}-${pkgver}"
+    python2 setup.py install --root="${pkgdir}" --optimize=1 --skip-build
+}
+
+package_python-lazr-uri() {
+    depends=('python-setuptools')
+    cd "${srcdir}/${_pkgname}-${pkgver}"
+    python setup.py install --root="${pkgdir}" --optimize=1 --skip-build
+}
